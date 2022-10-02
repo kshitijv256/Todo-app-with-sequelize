@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
             [Op.lt]: new Date(new Date().setDate(new Date().getDate())),
           },
         },
+        order: [["id", "ASC"]],
       });
     }
 
@@ -51,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
         where: {
           dueDate: new Date(new Date().setDate(new Date().getDate())),
         },
+        order: [["id", "ASC"]],
       });
     }
 
@@ -61,6 +63,7 @@ module.exports = (sequelize, DataTypes) => {
             [Op.gt]: new Date(new Date().setDate(new Date().getDate())),
           },
         },
+        order: [["id", "ASC"]],
       });
     }
 
