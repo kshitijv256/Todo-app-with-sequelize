@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 
       console.log("Due Today");
       const todayList = await this.dueToday();
-      const todayItems = todayList.map((todo) => todo.displayableString());
+      const todayItems = todayList.map((todo) => todo.displayableStringToday());
       console.log(todayItems.join("\n"));
       console.log("\n");
 
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: {
-            [Op.lt]: new Date(new Date().setDate(new Date().getDate())),
+            [Op.lt]: new Date(),
           },
         },
         order: [["id", "ASC"]],
@@ -50,7 +50,9 @@ module.exports = (sequelize, DataTypes) => {
     static async dueToday() {
       return await Todo.findAll({
         where: {
-          dueDate: new Date(new Date().setDate(new Date().getDate())),
+          dueDate: {
+            [Op.eq]: new Date(),
+          },
         },
         order: [["id", "ASC"]],
       });
@@ -60,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
       return await Todo.findAll({
         where: {
           dueDate: {
-            [Op.gt]: new Date(new Date().setDate(new Date().getDate())),
+            [Op.gt]: new Date(),
           },
         },
         order: [["id", "ASC"]],
@@ -81,6 +83,11 @@ module.exports = (sequelize, DataTypes) => {
     displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
       return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`;
+    }
+
+    displayableStringToday() {
+      let checkbox = this.completed ? "[x]" : "[ ]";
+      return `${this.id}. ${checkbox} ${this.title}`;
     }
   }
   Todo.init(
