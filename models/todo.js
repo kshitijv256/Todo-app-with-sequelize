@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 
       console.log("Due Today");
       const todayList = await this.dueToday();
-      const todayItems = todayList.map((todo) => todo.displayableStringToday());
+      const todayItems = todayList.map((todo) => todo.displayableString());
       console.log(todayItems.join("\n").trim());
       console.log("\n");
 
@@ -82,12 +82,10 @@ module.exports = (sequelize, DataTypes) => {
 
     displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
-      return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
-    }
-
-    displayableStringToday() {
-      let checkbox = this.completed ? "[x]" : "[ ]";
-      return `${this.id}. ${checkbox} ${this.title}`.trim();
+      const day = new Date(this.dueDate);
+      return day.getDate() === new Date().getDate()
+        ? `${this.id}. ${checkbox} ${this.title}`.trim()
+        : `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
     }
   }
   Todo.init(
