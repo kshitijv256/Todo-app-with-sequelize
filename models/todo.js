@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Overdue");
       const overdueItems = await this.overdue();
       const overdueList = overdueItems.map((todo) => todo.displayableString());
-      console.log(overdueList.join("\n"));
+      console.log(overdueList.join("\n").trim());
 
       console.log("\n");
 
       console.log("Due Today");
       const todayList = await this.dueToday();
       const todayItems = todayList.map((todo) => todo.displayableStringToday());
-      console.log(todayItems.join("\n"));
+      console.log(todayItems.join("\n").trim());
       console.log("\n");
 
       console.log("Due Later");
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       const dueLaterItems = dueLaterList.map((todo) =>
         todo.displayableString()
       );
-      console.log(dueLaterItems.join("\n"));
+      console.log(dueLaterItems.join("\n").trim());
     }
 
     static async overdue() {
@@ -82,12 +82,12 @@ module.exports = (sequelize, DataTypes) => {
 
     displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
-      return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`;
+      return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
     }
 
     displayableStringToday() {
       let checkbox = this.completed ? "[x]" : "[ ]";
-      return `${this.id}. ${checkbox} ${this.title}`;
+      return `${this.id}. ${checkbox} ${this.title}`.trim();
     }
   }
   Todo.init(
